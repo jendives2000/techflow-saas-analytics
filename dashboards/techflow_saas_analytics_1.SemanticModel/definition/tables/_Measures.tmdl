@@ -1,0 +1,145 @@
+table _Measures
+	lineageTag: 2086b458-d60b-4cf6-939b-f10a457e23d9
+
+	measure 'Total MRR' =
+			
+			CALCULATE(
+			    SUM(fact_customers[monthly_mrr]),
+			    fact_customers[churned] = "No"
+			)
+		formatString: "$" #,##0
+		lineageTag: 39679b97-8cbe-46b8-959c-c73d45787ad5
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Churn Rate %' =
+			
+			DIVIDE(
+			    COUNTROWS(FILTER(fact_customers, fact_customers[churned] = "Yes")),
+			    COUNTROWS(fact_customers)
+			)
+		formatString: 0.00%
+		displayFolder: Core KPIs
+		lineageTag: 68480d51-b97b-4f51-a43c-0e94eff618c5
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Avg LTV' =
+			
+			AVERAGE(fact_customers[lifetime_value])
+		formatString: "$" #,##0
+		displayFolder: Core KPIs
+		lineageTag: a8ba813a-11ee-420b-bdbe-5fbd16a34933
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Avg Tenure Months' =
+			
+			CALCULATE(
+			    AVERAGE(fact_customers[subscription_months]),
+			    fact_customers[churned] = "No"
+			)
+		formatString: 0.0 "mths"
+		displayFolder: Core KPIs
+		lineageTag: 9932480c-bcbd-417e-a779-9391fff2de9a
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'At-Risk MRR' =
+			
+			CALCULATE(
+			    SUM(fact_customers[monthly_mrr]),
+			    fact_customers[subscription_months] < 6,
+			    fact_customers[churned] = "No"
+			)
+		formatString: "$" #,##0
+		displayFolder: Risk
+		lineageTag: af1922dc-bdd0-4770-87ad-ad96aaa82539
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'LTV MRR Ratio' =
+			
+			DIVIDE([Avg LTV], AVERAGE(fact_customers[monthly_mrr]))
+		formatString: 0.0
+		displayFolder: Efficiency
+		lineageTag: 6cb8a4b4-83bb-4d85-b087-dc9302acc7a7
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Total MRR All Customers' = ```
+			SUM(fact_customers[monthly_mrr])
+			
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		isHidden
+		lineageTag: 1db9fd12-2b2e-4f4c-b259-1b5ea83d967d
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Tooltip Total MRR' = ```
+			
+			    "Active subscriber revenue only. Churned customers are excluded from this total."
+			
+			```
+		displayFolder: Tooltips
+		lineageTag: 130a5434-64cc-4b73-b251-a657e1c7cf32
+
+	measure 'Tooltip Churn Rate' = ```
+			
+			    "% of all customers (active + churned) who have cancelled. Baseline health indicator."
+			
+			```
+		displayFolder: Tooltips
+		lineageTag: e9da85f5-7e96-4ef9-ad96-2e51ecb4c56d
+
+	measure 'Tooltip Avg LTV' = ```
+			
+			    "Average lifetime revenue per customer across all records, including churned. Reflects full revenue capture."
+			
+			```
+		displayFolder: Tooltips
+		lineageTag: 24cf4d44-4b49-4c18-93a3-a827aa24fe6c
+
+	measure 'Tooltip Avg Tenure' = ```
+			
+			    "Average months subscribed, active customers only. Higher = stronger retention."
+			
+			```
+		displayFolder: Tooltips
+		lineageTag: 9ae71ee6-8a8e-421c-b43f-da2a5cdac4b5
+
+	measure 'Tooltip At-Risk MRR' = ```
+			
+			    "Revenue from subscribers in their first 6 months — the highest churn-risk window. Monitor closely."
+			
+			```
+		displayFolder: Tooltips
+		lineageTag: 16574d7b-283c-4c8c-a97c-00108a2bebca
+
+	measure 'Tooltip LTV MRR Ratio' = ```
+			
+			    "Avg LTV ÷ Avg MRR. Indicates how many months of revenue the typical customer generates. ~35x = healthy for SaaS."
+			
+			```
+		displayFolder: Tooltips
+		lineageTag: 1a0d49c7-9ab1-4266-83b5-988af36ad07e
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 43ce665b-1ba6-4c8e-875f-8a2580c13043
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 427f2f63e8bb408ca2a14f790c119d9e
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

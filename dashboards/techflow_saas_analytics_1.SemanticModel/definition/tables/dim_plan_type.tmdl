@@ -1,0 +1,41 @@
+table dim_plan_type
+	lineageTag: de978e36-2aeb-4db5-886a-521611bff802
+
+	column plan_type
+		dataType: string
+		lineageTag: 688bef6c-3731-42c9-b275-9acf19760a48
+		summarizeBy: none
+		sourceColumn: plan_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_order
+		dataType: int64
+		formatString: 0
+		lineageTag: b45ea71b-3782-427f-bf09-8af3d1d9d00b
+		summarizeBy: none
+		sourceColumn: plan_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_label
+		dataType: string
+		lineageTag: b36bd7d3-217d-456c-8357-0d766f13d397
+		summarizeBy: none
+		sourceColumn: plan_label
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_plan_type = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8s3PK8nQLcnXzQUxlHSUDIE4uCSxqCS1SClWJ1rJPy9VoTI1sQgobATE7kX55UB1IJmQ8nyYjDEQu+YBtRQUZRanKsXGAgA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [plan_type = _t, plan_order = _t, plan_label = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"plan_type", type text}, {"plan_order", Int64.Type}, {"plan_label", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

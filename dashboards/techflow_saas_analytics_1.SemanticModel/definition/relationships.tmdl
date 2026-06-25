@@ -1,0 +1,4 @@
+relationship AutoDetected_28acec0b-5728-42eb-a374-63040900638e
+	fromColumn: fact_customers.plan_type
+	toColumn: dim_plan_type.plan_type
+

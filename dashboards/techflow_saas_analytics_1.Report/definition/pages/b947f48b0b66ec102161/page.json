@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "b947f48b0b66ec102161",
+  "displayName": "Retention & Value",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

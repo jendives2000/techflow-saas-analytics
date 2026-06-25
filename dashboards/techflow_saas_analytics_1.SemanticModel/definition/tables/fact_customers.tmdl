@@ -1,0 +1,204 @@
+table fact_customers
+	lineageTag: b91ca743-6d39-47fd-a434-f9294e0f2e84
+
+	column customer_id
+		dataType: string
+		lineageTag: 02b9e479-ae8e-4515-8a92-249011c4a191
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		lineageTag: 7006663a-b2de-4165-8e79-888ba581c7c9
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column senior_citizen
+		dataType: int64
+		formatString: 0
+		lineageTag: 55e60b54-8d6c-4f08-a202-8b418ea802f9
+		summarizeBy: sum
+		sourceColumn: senior_citizen
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner
+		dataType: string
+		lineageTag: 2c974679-d1b3-4933-ac4b-d6c2edf0f1df
+		summarizeBy: none
+		sourceColumn: partner
+
+		annotation SummarizationSetBy = Automatic
+
+	column dependents
+		dataType: string
+		lineageTag: 0fe99159-9a32-443d-97b5-2ad6e3cd77e2
+		summarizeBy: none
+		sourceColumn: dependents
+
+		annotation SummarizationSetBy = Automatic
+
+	column subscription_months
+		dataType: int64
+		formatString: 0
+		lineageTag: ab3890ce-f8d1-4920-82e6-7ef61aeb2664
+		summarizeBy: sum
+		sourceColumn: subscription_months
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone_service
+		dataType: string
+		lineageTag: 15bff561-61f9-4d74-9500-3a38488e00d6
+		summarizeBy: none
+		sourceColumn: phone_service
+
+		annotation SummarizationSetBy = Automatic
+
+	column multiple_lines
+		dataType: string
+		lineageTag: c47402ab-c1d0-4b55-b58c-09297762f08e
+		summarizeBy: none
+		sourceColumn: multiple_lines
+
+		annotation SummarizationSetBy = Automatic
+
+	column internet_service
+		dataType: string
+		lineageTag: 13f78182-06ae-4a6d-867a-444c4b31856c
+		summarizeBy: none
+		sourceColumn: internet_service
+
+		annotation SummarizationSetBy = Automatic
+
+	column online_security
+		dataType: string
+		lineageTag: 3c326885-0ef8-48f8-9bf7-3ca2bfa5130c
+		summarizeBy: none
+		sourceColumn: online_security
+
+		annotation SummarizationSetBy = Automatic
+
+	column online_backup
+		dataType: string
+		lineageTag: 675526e0-a209-47e3-9ee9-63cce37e8669
+		summarizeBy: none
+		sourceColumn: online_backup
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_protection
+		dataType: string
+		lineageTag: 453936e5-2934-43fb-b501-732fa1346ec0
+		summarizeBy: none
+		sourceColumn: device_protection
+
+		annotation SummarizationSetBy = Automatic
+
+	column tech_support
+		dataType: string
+		lineageTag: a473cfba-7c04-4bf9-aafa-6cd899f73cb6
+		summarizeBy: none
+		sourceColumn: tech_support
+
+		annotation SummarizationSetBy = Automatic
+
+	column streaming_tv
+		dataType: string
+		lineageTag: 6de77fe9-dde2-4ca1-b194-649211b1d86d
+		summarizeBy: none
+		sourceColumn: streaming_tv
+
+		annotation SummarizationSetBy = Automatic
+
+	column streaming_movies
+		dataType: string
+		lineageTag: 568cb2c9-900e-4b4c-b961-bd8f2fb58d70
+		summarizeBy: none
+		sourceColumn: streaming_movies
+
+		annotation SummarizationSetBy = Automatic
+
+	column plan_type
+		dataType: string
+		lineageTag: e8799740-aa17-41df-872e-05a9f713a8f9
+		summarizeBy: none
+		sourceColumn: plan_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column paperless_billing
+		dataType: string
+		lineageTag: 53aa7138-d645-4ccc-8199-7addacd1c790
+		summarizeBy: none
+		sourceColumn: paperless_billing
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method
+		dataType: string
+		lineageTag: 1d039eff-0762-45d9-871b-80ee88dc66d0
+		summarizeBy: none
+		sourceColumn: payment_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column monthly_mrr
+		dataType: decimal
+		lineageTag: efff56d5-9206-45f1-96dd-c4e5411062bd
+		summarizeBy: sum
+		sourceColumn: monthly_mrr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lifetime_value
+		dataType: decimal
+		lineageTag: 6770a993-18dc-407e-9a34-2c1dd8fe08ac
+		summarizeBy: sum
+		sourceColumn: lifetime_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column churned
+		dataType: string
+		lineageTag: 8837e1d0-e0cc-4778-ad6a-2b97d27ab339
+		summarizeBy: none
+		sourceColumn: churned
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lifecycle Stage' =
+			
+			SWITCH(
+			    TRUE(),
+			    fact_customers[subscription_months] < 6,  "New (0-6mo)",
+			    fact_customers[subscription_months] < 24, "Growing (6-24mo)",
+			    "Mature (24mo+)"
+			)
+		lineageTag: 6a958089-5853-469d-8288-b6e8222cb2e0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_customers = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost", "techflow"),
+				    public_customers = Source{[Schema="public",Item="customers"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(public_customers,{{"lifetime_value", Currency.Type}, {"monthly_mrr", Currency.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

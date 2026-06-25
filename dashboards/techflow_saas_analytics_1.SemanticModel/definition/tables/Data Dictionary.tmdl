@@ -1,0 +1,61 @@
+table 'Data Dictionary'
+	isHidden
+	lineageTag: a3691a9f-da1f-44b7-ba80-335eca083158
+
+	column Field
+		dataType: string
+		isHidden
+		lineageTag: f4277c7c-a180-4169-bda6-85ca8deb3e4e
+		summarizeBy: none
+		sourceColumn: Field
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Definition
+		dataType: string
+		isHidden
+		lineageTag: d0c2c4a2-31e5-427a-a56e-fd5db7359d48
+		summarizeBy: none
+		sourceColumn: Definition
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		isHidden
+		lineageTag: 56160f12-5681-43fb-9dda-7cb7efabc116
+		summarizeBy: none
+		sourceColumn: Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Notes
+		dataType: string
+		isHidden
+		lineageTag: 597e4416-288e-4a99-8567-79d16dd3c4e6
+		summarizeBy: none
+		sourceColumn: Notes
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Data Dictionary' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("pVTLbhs5EPyVxgABbKyUGIvABwc52MoDC1hOIMsBAtsQWpyWTJhDakmO5LntR+wX5ktS5MzIoyTIJTc+u6qrq/v2tlB1iK4Sv9BlMSpurP63FuoPSZdio15p8bicOFNXFovPXlfsG3qUZkTWReL12suao5TF/ei22Bi2i9hsBG+v62VQXm+idpaUs9GzipQuz2iK7cM4unGVFvSKPlmhRthjOd+5vBziznhHWza1vKFSB6A0ZHgpJhBvNkZLSVvNuKoWzwwSnzDgsMhYAdHe1Z4zK7ei4QvSltpHxGCqK0kvSo5M8rRxPg4pXXDQgVbO06VeiWqUEbqOvBZiW9J5HM90eKSV4XVmkuOaZlH5lNi03dFMVO29tmustmJRgBQwPiDyvhJHN9fvjofI13VVIWOQnbvIhqaz2QEm9hnSgFdKYpGVw8f2ue+Q3BbBV7UxhxoAOzqU+CfYz17Gio2qTSp3gg+u9golYURC4vnsfLumy/mXTEA91N5KcteErRJjWtVD5FiHM/oqgd5S92hEVw47WERvZQh7ExCYobQ2MfnS0utUlVOqhEPtJbTG46aCYReVxAeXEC+0MUnX9uCMLtg+Eixow0qSyyZeSh1JsS+xe29ERe+sVuAj6hFHU9YGyHk75DNJfAkGEjjSa+QQ9NqiUxTbiJIumw4z8/rBG/h/JTs6OhmfVu4YKB+92yWaR6fjv1+3R1Oo44WO0v6vY1pyEiDJ9ksvT54r8twtbjc2qLJpm+QNVfASLeFM9GF60/VuL2FmuvdS67Ck8cCz2ZdtcXoiS/EBvEyT/NwFAp/zy8nN5fn8Pe00OrurLip7V1y5u6IrY0ZslZwlJV/0wibFO+MH9PMWY6hMkjJsur84AIRtMkhvkG///Q+TKFOXKE36BoVbj/TWHGGVDUt9h7SzBfl5F8JvsP7p4/ZptWAxjUpn2exh5ugw1HDaV6kHPOi0shtDo17Y58z/RNbhGEAIDIeVd9XPGDlQbUtodtqPvZh5HyCncdxJiyGOngHj/dhtPT7/kmfQLGWTk806D8uXjjo++8Af9FNyVYVRG2KegdHRycuTu+Lpriju778D", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Field = _t, Definition = _t, Type = _t, Notes = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Field", type text}, {"Definition", type text}, {"Type", type text}, {"Notes", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
