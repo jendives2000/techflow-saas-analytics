@@ -104,21 +104,33 @@ Fix the Starter plan's first 90 days before optimising acquisition. The analysis
 
 ## Dashboard
 
-**Executive Overview — KPI cards, MRR by plan, churn rate gauge with 20% benchmark**  
+<details>
+<summary><strong>Executive Overview</strong> — KPI cards, MRR by plan, churn rate gauge with 20% benchmark</summary>
 
-![Executive Overview](/project1_saas_analytics/dashboards/screenshots/image.png)
+![Executive Overview](dashboards/screenshots/image.png)
 
-**Churn Drivers — Churn rate by plan, payment method, and lifecycle stage**  
+</details>
 
-![Churn Drivers](/project1_saas_analytics/dashboards/screenshots/image2.png)
+<details>
+<summary><strong>Churn Drivers</strong> — Churn rate by plan, payment method, and lifecycle stage</summary>
 
-**Retention & Value — Tenure vs. MRR scatter with lifecycle zone boundaries**  
+![Churn Drivers](dashboards/screenshots/image2.png)
 
-![Retention & Value](/project1_saas_analytics/dashboards/screenshots/image3.png)
+</details>
 
-**Data Dictionary — Field definitions, measure logic, filter context**  
+<details>
+<summary><strong>Retention & Value</strong> — Tenure vs. MRR scatter with lifecycle zone boundaries</summary>
 
-![Data Dictionary](/project1_saas_analytics/dashboards/screenshots/image4.png)
+![Retention & Value](dashboards/screenshots/image3.png)
+
+</details>
+
+<details>
+<summary><strong>Data Dictionary</strong> — Field definitions, measure logic, filter context</summary>
+
+![Data Dictionary](dashboards/screenshots/image4.png)
+
+</details>
 
 ---
 
